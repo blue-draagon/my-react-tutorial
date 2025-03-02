@@ -1,24 +1,53 @@
 import {useState} from "react";
 
 function App() {
-    const [name, setName] = useState("Dragon")
+    console.log("render")
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log(new FormData(e.target));
+    }
+
+    const [value, setValue] = useState('')
     const handleChange = (e) => {
-        setName(e.target.value);
+        setValue(e.target.value)
     }
 
-    const reset = () => {
-        setName("")
+    const [area, setArea] = useState('')
+    const handleAreaChange = (e) => {
+        setArea(e.target.value)
     }
 
-    // controlled input is better for input
-    // that we want reaction for every change
+    const [check, setCheck] = useState(false)
+    const toggleCheck = (e) => {
+        setCheck(!check)
+    }
+
+    // uncontrolled input is better for input that
+    // is needed only on submit
+    // on controlled input value must not be undefined
+
+    // text area and other form work like simple input
     return (
         <>
-            <form>
-                <input type="text" name="name" value={name} onChange={handleChange}/>
-                {name}
-                <button type="button" onClick={reset}>Reset</button>
+            <form onSubmit={handleSubmit}>
+                <p>
+                    Uncontrolled input
+                    <input type="text" name="name" defaultValue="Valeur par defaut" />
+                </p>
+                <p>
+                    Controlled input
+                    <input type="text" name="value" value={value} onChange={handleChange} />
+                </p>
+                <p>
+                    Textarea input
+                    <textarea name="value" value={area} onChange={handleAreaChange} />
+                </p>
+                <p>
+                    Check input
+                    <input type="checkbox" name="value" checked={check} onChange={toggleCheck} />
+                </p>
+                <button disabled={!check}>Envoyer</button>
             </form>
         </>
     )
