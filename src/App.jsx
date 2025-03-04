@@ -1,54 +1,17 @@
-import {use, useMemo, useState} from "react";
+import {use, useMemo, useRef, useState} from "react";
 import {Input} from "./components/forms/Input.jsx";
 
 function App() {
-    console.log("App render");
-    const [username, setUsername] = useState("Demba")
-    const [password, setPassword] = useState("Password")
-    // useMemo is important for store variable
-    // from large time calculate
-    const security = useMemo(() => {
-        return passwordSecurity(password);
-    }, [password])
+
+    const ref = useRef(null);
+
+    console.log(ref);
 
     return (
-        <div className="container my-3 vstack gap-2">
-            <Input
-                id="Username"
-                label="Username"
-                placeholder="Username"
-                value={username}
-                onChange={setUsername}
-            />
-            <Input
-                id="Password"
-                label="Password"
-                placeholder="Password"
-                value={password}
-                onChange={setPassword}
-            />
-            Security : {security}
+        <div onClick={() => ref.current = 'Clicked'}>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet corporis dolores exercitationem obcaecati quia saepe. Ad, animi commodi ducimus ea iure mollitia natus officia omnis voluptas voluptatibus. Cupiditate, dolorum, laborum!
         </div>
     )
-}
-
-/**
- *
- * @param {string} password
- * @returns {string}
- */
-function passwordSecurity(password) {
-    const startTime = performance.now()
-    while (performance.now() - startTime < 200) {}
-
-    if (password.length <= 3) {
-        return "Low"
-    }
-    if (password.length <= 6) {
-        return "Middle"
-    }
-
-    return "Good";
 }
 
 
