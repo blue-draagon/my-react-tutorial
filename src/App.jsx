@@ -9,6 +9,8 @@ function App() {
     // ref is a special prop to use it simple change
     // prop name on component
     // or use forwardRef
+    // set default value to null for ref
+    // to avoid unwanted change
 
     return (
         <div className="container my-3">
