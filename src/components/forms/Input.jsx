@@ -1,17 +1,22 @@
 /**
  *
+ * @param {string} id
+ * @param {string} label
  * @param {string} placeholder
  * @param {string | number} value
  * @param {(s: string) => {}} onChange
  */
-export function Input({placeholder, value, onChange}) {
+export function Input({id, label, placeholder, value, onChange}) {
     return (
-        <div>
-            <input type="text"
-                   className="form-control"
-                   value={value}
-                   placeholder={placeholder}
-                   onChange={e => onChange(e.target.value)}
+        <div className="form-group">
+            <label className="form-label" htmlFor={id}>{label}</label>
+            <input
+                id={id}
+                type="text"
+                className="form-control"
+                value={value}
+                placeholder={placeholder}
+                onChange={e => onChange(e.target.value)}
             />
         </div>
     )
