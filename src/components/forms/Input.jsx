@@ -5,7 +5,7 @@ import {useId} from "react";
  * @param {string} label
  * @param {string} placeholder
  * @param {string | number} value
- * @param {(s: string) => {}} onChange
+ * @param {(s: string) => void} onChange
  */
 export function Input({label, placeholder, value, onChange}) {
     const id = useId()

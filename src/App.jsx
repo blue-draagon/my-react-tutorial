@@ -5,17 +5,10 @@ function App() {
 
     const ref = useRef(null);
     const [value, setValue] = useState("");
-    ref.current = value
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            console.log(ref.current)
-        }, 1000)
-
-        return () => {
-            clearInterval(timer);
-        }
-    }, []);
+    // ref is a special prop to use it simple change
+    // prop name on component
+    // or use forwardRef
 
     return (
         <div className="container my-3">
@@ -24,7 +17,6 @@ function App() {
                 value={value}
                 onChange={setValue}
             />
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet corporis dolores exercitationem obcaecati quia saepe. Ad, animi commodi ducimus ea iure mollitia natus officia omnis voluptas voluptatibus. Cupiditate, dolorum, laborum!
         </div>
     )
 }
