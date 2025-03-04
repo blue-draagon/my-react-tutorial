@@ -1,46 +1,80 @@
-import {useState} from "react";
-import {SearchBar} from "./components/SearchBar.jsx";
-import {ProductTable} from "./components/product/ProductTable.jsx";
-
-const PRODUCTS = [
-    {category: "Fruits", price: 1, stocked: true, name: "Apple"},
-    {category: "Fruits", price: 1, stocked: true, name: "Dragonfruit"},
-    {category: "Fruits", price: 2, stocked: false, name: "Passionfruit"},
-    {category: "Vegetables", price: 2, stocked: true, name: "Spinach"},
-    {category: "Vegetables", price: 4, stocked: false, name: "Pumpkin"},
-    {category: "Vegetables", price: 1, stocked: true, name: "Peas"}
-]
+import {useEffect, useState} from "react";
+import {Input} from "./components/forms/Input.jsx";
+import {Checkbox} from "./components/forms/Checkbox.jsx";
 
 function App() {
-    const [showStockOnly, setShowStockOnly] = useState(false);
-    const [search, setSearch] = useState("")
-    const [maxPrice, setMaxPrice] = useState(5)
+    const [showInput, setShowInput] = useState(true);
 
-    const visibleProducts = PRODUCTS.filter(product => {
-        if (showStockOnly && !product.stocked) {
-            return false;
-        }
-        if (maxPrice < product.price) {
-            return false;
-        }
-        return !(search && !product.name.toLowerCase().includes(search.toLowerCase()));
-    });
 
     return (
         <div className="container my-3">
-            <SearchBar
-                showStockOnly={showStockOnly}
-                onStockOnlyChange={setShowStockOnly}
-                search={search}
-                onSearch={setSearch}
-                maxPrice={maxPrice}
-                onMaxPriceChange={setMaxPrice}
-            />
-            <ProductTable products={visibleProducts} />
+            <div className="mb-3">
+                <Checkbox
+                    id="checkbox"
+                    label="Show title input"
+                    checked={showInput}
+                    onChange={setShowInput}
+                />
+            </div>
+            {showInput && (<EditTitle/>)}
+
+            <div style={{height: '300vh'}}></div>
         </div>
     )
 }
 
+function EditTitle() {
+    const [title, setTitle] = useState('')
+    const [name, setName] = useState('')
+    const [y, setY] = useState(0)
+
+    // a setter on first level of useEffect is not
+    // a good practice
+
+    // set original title
+    useEffect(() => {
+        const baseTitle = document.title
+        return () => {
+            document.title = baseTitle
+        }
+    }, []);
+
+    useEffect(() => {
+        console.log("title")
+        document.title = title
+    }, [title])
+
+    useEffect(() => {
+        console.log("mounted")
+    }, [])
+
+    // gestion de l'effet de bord
+    useEffect(() => {
+        const handler = (e) => {
+            console.log('scroll')
+            setY(window.scrollY)
+        }
+        window.addEventListener('scroll', handler)
+
+        return () => {
+            window.removeEventListener('scroll', handler)
+        }
+    }, [])
+
+    return (<div className="vstack gap-2">
+        <Input
+            placeholder="Update the title"
+            value={title}
+            onChange={setTitle}
+        />
+        <Input
+            placeholder="Name"
+            value={name}
+            onChange={setName}
+        />
+        Scroll : {y}
+    </div>)
+}
 
 
 export default App
