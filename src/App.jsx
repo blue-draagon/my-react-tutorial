@@ -1,11 +1,15 @@
-import {use, useState} from "react";
+import {use, useMemo, useState} from "react";
 import {Input} from "./components/forms/Input.jsx";
 
 function App() {
     console.log("App render");
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const security = passwordSecurity(password)
+    const [username, setUsername] = useState("Demba")
+    const [password, setPassword] = useState("Password")
+    // useMemo is important for store variable
+    // from large time calculate
+    const security = useMemo(() => {
+        return passwordSecurity(password);
+    }, [password])
 
     return (
         <div className="container my-3 vstack gap-2">
