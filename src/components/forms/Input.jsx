@@ -1,7 +1,7 @@
 /**
  *
  * @param {string} placeholder
- * @param {string} value
+ * @param {string | number} value
  * @param {(s: string) => {}} onChange
  */
 export function Input({placeholder, value, onChange}) {
