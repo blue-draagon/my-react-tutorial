@@ -1,60 +1,59 @@
 import {useFetch} from "./hooks/useFetch.js";
 import {Input} from "./components/forms/Input.jsx";
 import {memo, useCallback, useMemo, useState} from "react";
+import {createPortal} from "react-dom";
 
 
 function App() {
     console.log("App render")
-    const [name, setName] = useState('')
 
-    const value = useMemo(() => {
-        return {a : "some content"}
-    }, []);
-
-    // useCallBack is just a useMemo who return a function
-    const handleClick = useCallback(() => {
-        console.log("Click")
-    }, [])
-
-    // if handle click depend on name
-    // use ref to store de name value on it
+    const style = {
+        height: 200,
+        overflowY: "scroll",
+        background: "#eee",
+        position: "relative",
+    }
 
     return (
         <div className="container my-3 vstack gap-3">
-            <Input
-                label="Name"
-                placeholder="Name"
-                value={name}
-                onChange={setName}
-            />
-            Name: {name}
+            <div style={style}>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda autem earum enim eos et facilis impedit ipsam iusto laborum molestiae nostrum porro possimus praesentium quae repellat sint sit, soluta unde.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda autem earum enim eos et facilis impedit ipsam iusto laborum molestiae nostrum porro possimus praesentium quae repellat sint sit, soluta unde.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda autem earum enim eos et facilis impedit ipsam iusto laborum molestiae nostrum porro possimus praesentium quae repellat sint sit, soluta unde.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda autem earum enim eos et facilis impedit ipsam iusto laborum molestiae nostrum porro possimus praesentium quae repellat sint sit, soluta unde.
+                </p>
 
-            <Info value={value} onClick={handleClick} />
+                <BodyModal />
+            </div>
         </div>
     )
 }
 
-// default rendering
-// a component is render when state change
-// or when parent is render
+function BodyModal () {
+    return createPortal(<Modal />, document.body)
+}
 
-const Info = memo(function InfoMemo({value, onClick}) {
-    console.log("Info render")
-    waitSync(500)
+function Modal() {
+    const style = {
+        position: "absolute",
+        top: 0,
+        right: 0,
+        padding: 10,
+        border: "1px solid grey",
+        background: "white",
+    }
     return (
-        <div className="alert alert-info" onClick={onClick}>
-            {value.a}
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequuntur culpa cum ducimus eaque, earum
-            esse et ex minima molestiae nostrum numquam perspiciatis possimus, quae recusandae repudiandae soluta sunt
-            voluptate.
+        <div style={style}>
+            I am a Modal
         </div>
     )
-})
-
-function waitSync(duration) {
-    const startTime = performance.now()
-    while (performance.now() - startTime < duration) {
-    }
 }
 
 
