@@ -1,6 +1,6 @@
 import {useFetch} from "./hooks/useFetch.js";
 import {Input} from "./components/forms/Input.jsx";
-import {useState} from "react";
+import {memo, useState} from "react";
 
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
 // a component is render when state change
 // or when parent is render
 
-function Info() {
+const Info = memo(function InfoMemo() {
     console.log("Info render")
     waitSync(500)
     return (
@@ -34,7 +34,7 @@ function Info() {
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequuntur culpa cum ducimus eaque, earum esse et ex minima molestiae nostrum numquam perspiciatis possimus, quae recusandae repudiandae soluta sunt voluptate.
         </div>
     )
-}
+})
 
 function waitSync(duration) {
     const startTime = performance.now()
