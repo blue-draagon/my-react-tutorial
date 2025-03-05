@@ -1,13 +1,15 @@
 import {useFetch} from "./hooks/useFetch.js";
 import {Input} from "./components/forms/Input.jsx";
-import {memo, useState} from "react";
+import {memo, useMemo, useState} from "react";
 
 
 function App() {
     console.log("App render")
     const [name, setName] = useState('')
 
-    const value = {a: "some thing"}
+    const value = useMemo(() => {
+        return {a : "some content"}
+    }, []);
 
     const handleClick = () => {
         console.log("Click")
@@ -23,7 +25,7 @@ function App() {
             />
             Name: {name}
 
-            <Info value={value} />
+            <Info value={value}/>
         </div>
     )
 }
@@ -36,16 +38,19 @@ const Info = memo(function InfoMemo({value}) {
     console.log("Info render")
     waitSync(500)
     return (
-        <div className="alert alert-info" onClick={()=> null}>
+        <div className="alert alert-info" onClick={() => null}>
             {value.a}
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequuntur culpa cum ducimus eaque, earum esse et ex minima molestiae nostrum numquam perspiciatis possimus, quae recusandae repudiandae soluta sunt voluptate.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequuntur culpa cum ducimus eaque, earum
+            esse et ex minima molestiae nostrum numquam perspiciatis possimus, quae recusandae repudiandae soluta sunt
+            voluptate.
         </div>
     )
 })
 
 function waitSync(duration) {
     const startTime = performance.now()
-    while (performance.now() - startTime < duration) {}
+    while (performance.now() - startTime < duration) {
+    }
 }
 
 
