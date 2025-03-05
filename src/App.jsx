@@ -1,25 +1,44 @@
 import {useFetch} from "./hooks/useFetch.js";
+import {Input} from "./components/forms/Input.jsx";
+import {useState} from "react";
 
 
 function App() {
-    const API_URL = 'https://jsonplaceholder.typicode.com/todos/?_limit=20&_delay=2000'
-    const {loading, data, error} = useFetch(API_URL)
+    console.log("App render")
+    const [name, setName] = useState('')
 
     return (
-        <div className="container my-3">
-            {loading && <p>Loading...</p>}
-            {error && <p className="alert alert-danger">{error.toString()}</p>}
-            {data &&
-                <div>
-                    <ul>
-                        {data.map((item) => (
-                            <li key={item.id}>{item.title}</li>
-                        ))}
-                    </ul>
-                </div>
-            }
+        <div className="container my-3 vstack gap-3">
+            <Input
+                label="Name"
+                placeholder="Name"
+                value={name}
+                onChange={setName}
+            />
+            Name: {name}
+
+            <Info />
         </div>
     )
+}
+
+// default rendering
+// a component is render when state change
+// or when parent is render
+
+
+function Info() {
+    console.log("Info render")
+    waitSync(500)
+    return (
+        <div className="alert alert-info">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequuntur culpa cum ducimus eaque, earum esse et ex minima molestiae nostrum numquam perspiciatis possimus, quae recusandae repudiandae soluta sunt voluptate.
+        </div>
+    )
+}
+
+function waitSync(duration) {
+    setTimeout(() => {}, duration)
 }
 
 
