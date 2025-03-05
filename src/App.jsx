@@ -7,6 +7,8 @@ function App() {
     console.log("App render")
     const [name, setName] = useState('')
 
+    const value = {a: "some thing"}
+
     const handleClick = () => {
         console.log("Click")
     }
@@ -21,7 +23,7 @@ function App() {
             />
             Name: {name}
 
-            <Info onclick={handleClick} />
+            <Info value={value} />
         </div>
     )
 }
@@ -30,11 +32,12 @@ function App() {
 // a component is render when state change
 // or when parent is render
 
-const Info = memo(function InfoMemo({onclick}) {
+const Info = memo(function InfoMemo({value}) {
     console.log("Info render")
     waitSync(500)
     return (
-        <div className="alert alert-info" onClick={onclick}>
+        <div className="alert alert-info" onClick={()=> null}>
+            {value.a}
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequuntur culpa cum ducimus eaque, earum esse et ex minima molestiae nostrum numquam perspiciatis possimus, quae recusandae repudiandae soluta sunt voluptate.
         </div>
     )
