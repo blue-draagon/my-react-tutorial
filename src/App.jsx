@@ -1,22 +1,23 @@
-import {useToggle} from "./hooks/useToggle.js";
-import {useIncrement} from "./hooks/useIncrement.js";
-import {useState} from "react";
-import {useDocumentTitle} from "./hooks/useDocumentTitle.js";
-import {Input} from "./components/forms/Input.jsx";
+import {useFetch} from "./hooks/useFetch.js";
 
 
 function App() {
-    const [name, setName] = useState("")
-    useDocumentTitle(name)
+    const API_URL = 'https://jsonplaceholder.typicode.com/todos/?_limit=20&_delay=2000'
+    const {loading, data, error} = useFetch(API_URL)
 
     return (
         <div className="container my-3">
-            <Input
-                placeholder="Edit your name..."
-                label="Name"
-                value={name}
-                onChange={setName}
-            />
+            {loading && <p>Loading...</p>}
+            {error && <p className="alert alert-danger">{error.toString()}</p>}
+            {data &&
+                <div>
+                    <ul>
+                        {data.map((item) => (
+                            <li key={item.id}>{item.title}</li>
+                        ))}
+                    </ul>
+                </div>
+            }
         </div>
     )
 }
