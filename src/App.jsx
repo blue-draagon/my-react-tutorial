@@ -26,7 +26,6 @@ function App() {
 // a component is render when state change
 // or when parent is render
 
-
 function Info() {
     console.log("Info render")
     waitSync(500)
@@ -38,7 +37,8 @@ function Info() {
 }
 
 function waitSync(duration) {
-    setTimeout(() => {}, duration)
+    const startTime = performance.now()
+    while (performance.now() - startTime < duration) {}
 }
 
 
