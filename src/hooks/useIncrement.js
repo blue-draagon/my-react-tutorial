@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useCallback, useState} from "react";
 
 /**
  *
@@ -9,14 +9,14 @@ import {useState} from "react";
  */
 export function useIncrement({initial = 0, step = 1, min = -Infinity, max = Infinity}) {
     const [count, setCount] = useState(initial)
-    const increment = () => {
+    const increment = useCallback(() => {
         setCount(value => value > max ? value :  value + step)
-    }
-    const decrement = () => {
+    }, [max])
+    const decrement = useCallback(() => {
         setCount(value => value < min ? value :  value - step)
-    }
-    const reset = () => {
+    }, [min])
+    const reset = useCallback(() => {
         setCount(initial)
-    }
+    }, [])
     return {count, increment, decrement, reset}
 }

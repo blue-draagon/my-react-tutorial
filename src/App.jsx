@@ -16,6 +16,9 @@ function App() {
         console.log("Click")
     }, [])
 
+    // if handle click depend on name
+    // use ref to store de name value on it
+
     return (
         <div className="container my-3 vstack gap-3">
             <Input
