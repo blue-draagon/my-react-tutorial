@@ -4,6 +4,8 @@
  */
 export function ProductRow({product}) {
     const style = product.stocked ? undefined : {color: "red"}
+
+    throw new Error("Error loading ProductRow")
     return (
         <tr>
             <td style={style}>{product.name}</td>

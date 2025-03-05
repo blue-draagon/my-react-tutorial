@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {SearchBar} from "./components/SearchBar.jsx";
 import {ProductTable} from "./components/product/ProductTable.jsx";
+import {ErrorBoundary} from "./components/ErrorBundary.jsx";
 
 const PRODUCTS = [
     {category: "Fruits", price: 1, stocked: true, name: "Apple"},
@@ -36,11 +37,18 @@ function App() {
                 maxPrice={maxPrice}
                 onMaxPriceChange={setMaxPrice}
             />
-            <ProductTable products={visibleProducts} />
+            <ErrorBoundary
+                fallback={
+                    <p className="alert alert-danger">
+                        Failed to load the products
+                    </p>
+                }
+            >
+                <ProductTable products={visibleProducts}/>
+            </ErrorBoundary>
         </div>
     )
 }
-
 
 
 export default App

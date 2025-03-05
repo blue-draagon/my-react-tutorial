@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -12,17 +12,9 @@ export class ErrorBoundary extends React.Component {
     }
 
     componentDidCatch(error, info) {
-        logErrorToMyService(
+        console.log(
             error,
-            // Example "componentStack":
-            //   in ComponentThatThrows (created by App)
-            //   in ErrorBoundary (created by App)
-            //   in div (created by App)
-            //   in App
-            info.componentStack,
-            // Only available in react@canary.
-            // Warning: Owner Stack is not available in production.
-            React.captureOwnerStack(),
+            info.componentStack
         );
     }
 
