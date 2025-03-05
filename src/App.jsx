@@ -1,6 +1,6 @@
 import {useFetch} from "./hooks/useFetch.js";
 import {Input} from "./components/forms/Input.jsx";
-import {memo, useMemo, useState} from "react";
+import {memo, useCallback, useMemo, useState} from "react";
 
 
 function App() {
@@ -11,9 +11,10 @@ function App() {
         return {a : "some content"}
     }, []);
 
-    const handleClick = () => {
+    // useCallBack is just a useMemo who return a function
+    const handleClick = useCallback(() => {
         console.log("Click")
-    }
+    }, [])
 
     return (
         <div className="container my-3 vstack gap-3">
@@ -25,7 +26,7 @@ function App() {
             />
             Name: {name}
 
-            <Info value={value}/>
+            <Info value={value} onClick={handleClick} />
         </div>
     )
 }
@@ -34,11 +35,11 @@ function App() {
 // a component is render when state change
 // or when parent is render
 
-const Info = memo(function InfoMemo({value}) {
+const Info = memo(function InfoMemo({value, onClick}) {
     console.log("Info render")
     waitSync(500)
     return (
-        <div className="alert alert-info" onClick={() => null}>
+        <div className="alert alert-info" onClick={onClick}>
             {value.a}
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequuntur culpa cum ducimus eaque, earum
             esse et ex minima molestiae nostrum numquam perspiciatis possimus, quae recusandae repudiandae soluta sunt
