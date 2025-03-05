@@ -1,19 +1,20 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 /**
  *
  * @param {string} title
  */
 export function useDocumentTitle(title = "") {
+    const titleRef = useRef(document.title)
+
     useEffect(() => {
-        const baseTitle = document.title;
         return () => {
-            document.title = baseTitle;
+            document.title = titleRef.current;
         }
     }, []);
 
     useEffect(() => {
-        document.title = title;
+        document.title = title ? title : titleRef.current;
     }, [title]);
 
 }

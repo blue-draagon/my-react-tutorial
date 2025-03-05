@@ -1,28 +1,22 @@
 import {useToggle} from "./hooks/useToggle.js";
 import {useIncrement} from "./hooks/useIncrement.js";
+import {useState} from "react";
+import {useDocumentTitle} from "./hooks/useDocumentTitle.js";
+import {Input} from "./components/forms/Input.jsx";
 
 
 function App() {
-     const [checked, toggleCheck] = useToggle();
-     const {count, increment, decrement} = useIncrement({});
+    const [name, setName] = useState("")
+    useDocumentTitle(name)
 
     return (
         <div className="container my-3">
-            <div className="vstack gap-3">
-                <div>
-                    <input type="checkbox" checked={checked} onChange={toggleCheck} />
-                    {checked && "Checked"}
-                </div>
-                <div>
-                    Counter : {count}
-                    <button onClick={increment}>
-                        Increment
-                    </button>
-                    <button onClick={decrement}>
-                        Decrement
-                    </button>
-                </div>
-            </div>
+            <Input
+                placeholder="Edit your name..."
+                label="Name"
+                value={name}
+                onChange={setName}
+            />
         </div>
     )
 }
