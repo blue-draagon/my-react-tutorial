@@ -7,6 +7,10 @@ function App() {
     console.log("App render")
     const [name, setName] = useState('')
 
+    const handleClick = () => {
+        console.log("Click")
+    }
+
     return (
         <div className="container my-3 vstack gap-3">
             <Input
@@ -17,7 +21,7 @@ function App() {
             />
             Name: {name}
 
-            <Info />
+            <Info onclick={handleClick} />
         </div>
     )
 }
@@ -26,11 +30,11 @@ function App() {
 // a component is render when state change
 // or when parent is render
 
-const Info = memo(function InfoMemo() {
+const Info = memo(function InfoMemo({onclick}) {
     console.log("Info render")
     waitSync(500)
     return (
-        <div className="alert alert-info">
+        <div className="alert alert-info" onClick={onclick}>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequuntur culpa cum ducimus eaque, earum esse et ex minima molestiae nostrum numquam perspiciatis possimus, quae recusandae repudiandae soluta sunt voluptate.
         </div>
     )
