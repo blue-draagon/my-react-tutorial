@@ -1,7 +1,7 @@
-import {useState} from "react";
+import {lazy, Suspense, useState} from "react";
 import {SearchBar} from "./components/SearchBar.jsx";
 import {ProductTable} from "./components/product/ProductTable.jsx";
-import { ErrorBoundary } from "react-error-boundary";
+import {ErrorBoundary} from "react-error-boundary";
 
 const PRODUCTS = [
     {category: "Fruits", price: 1, stocked: true, name: "Apple"},
@@ -37,26 +37,19 @@ function App() {
                 maxPrice={maxPrice}
                 onMaxPriceChange={setMaxPrice}
             />
-            <ErrorBoundary
-                FallbackComponent={AlertError}
-                onReset={() => console.log("reset call back")}
-            >
-                <ProductTable products={visibleProducts}/>
-            </ErrorBoundary>
+            <Suspense fallback={<Loading />}>
+                <ProductTablePreview products={visibleProducts}/>
+            </Suspense>
         </div>
     )
 }
 
-function AlertError({error, resetErrorBoundary}) {
+const ProductTablePreview = lazy(() => import("./components/product/ProductTable"));
+
+function Loading() {
     return (
-        <div className="alert alert-danger">
-            Failed to load the products : {error.toString()}
-            <button
-                className="btn btn-sm btn-secondary float-end"
-                onClick={resetErrorBoundary}
-            >
-                Try again
-            </button>
+        <div className="alert alert-info">
+            Products loading ...
         </div>
     )
 }

@@ -37,3 +37,5 @@ export function ProductTable({products}) {
         </div>
     )
 }
+
+export default ProductTable;
