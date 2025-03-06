@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {SearchBar} from "./components/SearchBar.jsx";
 import {ProductTable} from "./components/product/ProductTable.jsx";
-import {ErrorBoundary} from "./components/ErrorBundary.jsx";
+import { ErrorBoundary } from "react-error-boundary";
 
 const PRODUCTS = [
     {category: "Fruits", price: 1, stocked: true, name: "Apple"},
@@ -38,11 +38,8 @@ function App() {
                 onMaxPriceChange={setMaxPrice}
             />
             <ErrorBoundary
-                fallback={
-                    <p className="alert alert-danger">
-                        Failed to load the products
-                    </p>
-                }
+                FallbackComponent={AlertError}
+                onReset={() => console.log("reset call back")}
             >
                 <ProductTable products={visibleProducts}/>
             </ErrorBoundary>
@@ -50,5 +47,18 @@ function App() {
     )
 }
 
+function AlertError({error, resetErrorBoundary}) {
+    return (
+        <div className="alert alert-danger">
+            Failed to load the products : {error.toString()}
+            <button
+                className="btn btn-sm btn-secondary float-end"
+                onClick={resetErrorBoundary}
+            >
+                Try again
+            </button>
+        </div>
+    )
+}
 
 export default App
