@@ -14,11 +14,11 @@ function App() {
     return (
         <div className="container my-3">
             <button onClick={todos.toggleVisible}>
-                {todos.showCompleted ? "Hide Completed" : "Show Completed" }
+                {todos.showCompleted ? "Hide Completed" : "Show Completed"}
             </button>
             <ul>
                 {todos.visible.map(todo => (
-                    <li key={todo.name} >
+                    <li key={todo.name}>
                         <input type="checkbox"
                                checked={todo.checked}
                                onChange={() => todos.toggleCheck(todo)}

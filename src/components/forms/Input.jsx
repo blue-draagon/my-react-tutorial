@@ -1,17 +1,31 @@
+import {useId} from "react";
+
 /**
  *
+ * @param {string} label
  * @param {string} placeholder
- * @param {string} value
- * @param {(s: string) => {}} onChange
+ * @param {string | number} value
+ * @param {(s: string) => void} onChange
  */
-export function Input({placeholder, value, onChange}) {
+export function Input({label, placeholder, value, onChange}) {
+    const id = useId()
+
+    const handleChange = (e) => {
+        onChange(e.target.value)
+    }
+
     return (
-        <div>
-            <input type="text"
-                   className="form-control"
-                   value={value}
-                   placeholder={placeholder}
-                   onChange={e => onChange(e.target.value)}
+        <div className="form-group">
+            <label className="form-label" htmlFor={id}>
+                {label}
+            </label>
+            <input
+                id={id}
+                type="text"
+                className="form-control"
+                value={value}
+                placeholder={placeholder}
+                onChange={handleChange}
             />
         </div>
     )
