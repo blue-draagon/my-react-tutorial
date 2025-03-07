@@ -1,55 +1,63 @@
-import {lazy, Suspense, useState} from "react";
-import {SearchBar} from "./components/SearchBar.jsx";
-import {ProductTable} from "./components/product/ProductTable.jsx";
-import {ErrorBoundary} from "react-error-boundary";
+import {useReducer} from "react";
 
-const PRODUCTS = [
-    {category: "Fruits", price: 1, stocked: true, name: "Apple"},
-    {category: "Fruits", price: 1, stocked: true, name: "Dragonfruit"},
-    {category: "Fruits", price: 2, stocked: false, name: "Passionfruit"},
-    {category: "Vegetables", price: 2, stocked: true, name: "Spinach"},
-    {category: "Vegetables", price: 4, stocked: false, name: "Pumpkin"},
-    {category: "Vegetables", price: 1, stocked: true, name: "Peas"}
+function todoReducer(state, action) {
+    switch (action.type) {
+        case "remove_todo": {
+            return {
+                ...state,
+                todos : state.todos.filter(todo => todo !== action.item)
+            }
+        }
+        case "toggle_todo": {
+            return {
+                ...state,
+                todos : state.todos.map(todo => todo === action.item ? {...todo, checked: !todo.checked} : todo)
+            }
+        }
+        case "remove_completed": {
+            return {
+                ...state,
+                todos : state.todos.filter(todo => !todo.checked)
+            }
+        }
+        case "toggle_completed": {
+            return {
+                ...state,
+                showCompleted: !state.showCompleted
+            }
+        }
+    }
+    throw new Error("Unrecognized action type");
+}
+
+const TODOS = [
+    {name: "Create todo app", checked: false},
+    {name: "Create service app", checked: false},
+    {name: "Create mj app", checked: false},
+    {name: "Create ay app", checked: false},
 ]
 
 function App() {
-    const [showStockOnly, setShowStockOnly] = useState(false);
-    const [search, setSearch] = useState("")
-    const [maxPrice, setMaxPrice] = useState(5)
+    console.log("App render")
+    const [state, dispatch] = useReducer(todoReducer, {showCompleted: true, todos: TODOS})
 
-    const visibleProducts = PRODUCTS.filter(product => {
-        if (showStockOnly && !product.stocked) {
-            return false;
-        }
-        if (maxPrice < product.price) {
-            return false;
-        }
-        return !(search && !product.name.toLowerCase().includes(search.toLowerCase()));
-    });
+    const visibleTodos = state.showCompleted ? state.todos : state.todos.filter(todo => !todo.checked)
 
     return (
         <div className="container my-3">
-            <SearchBar
-                showStockOnly={showStockOnly}
-                onStockOnlyChange={setShowStockOnly}
-                search={search}
-                onSearch={setSearch}
-                maxPrice={maxPrice}
-                onMaxPriceChange={setMaxPrice}
-            />
-            <Suspense fallback={<Loading />}>
-                <ProductTablePreview products={visibleProducts}/>
-            </Suspense>
-        </div>
-    )
-}
-
-const ProductTablePreview = lazy(() => import("./components/product/ProductTable"));
-
-function Loading() {
-    return (
-        <div className="alert alert-info">
-            Products loading ...
+            <button onClick={() => dispatch({type: "toggle_completed"})}>
+                {state.showCompleted ? "Hide Completed" : "Show Completed" }
+            </button>
+            <ul>
+                {visibleTodos.map(todo => (
+                    <li key={todo.name} >
+                        <input type="checkbox" checked={todo.checked} onChange={() => dispatch({type: "toggle_todo", item: todo})}/>
+                        {todo.name}
+                        <button onClick={() => dispatch({type: "remove_todo", item: todo})}>Delete</button>
+                    </li>
+                ))}
+            </ul>
+            <button onClick={() => dispatch({type: "remove_completed"})}>Clear completed</button>
         </div>
     )
 }
