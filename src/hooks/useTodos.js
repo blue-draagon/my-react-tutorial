@@ -1,4 +1,4 @@
-import {useCallback, useReducer} from "react";
+import {useCallback, useReducer, useState} from "react";
 
 function todoReducer(state, action) {
     switch (action.type) {
@@ -12,6 +12,12 @@ function todoReducer(state, action) {
             return {
                 ...state,
                 todos : state.todos.map(todo => todo === action.item ? {...todo, checked: !todo.checked} : todo)
+            }
+        }
+        case "add_todo": {
+            return {
+                ...state,
+                todos : [...state.todos, action.item]
             }
         }
         case "remove_completed": {
@@ -32,14 +38,22 @@ function todoReducer(state, action) {
 
 export function useTodos(todos = []) {
     const [state, dispatch] = useReducer(todoReducer, {showCompleted: true, todos: todos})
+    const [search, setSearch] = useState('')
+
     const visibleTodos = state.showCompleted ? state.todos : state.todos.filter(todo => !todo.checked)
+    const displayTodos = search !== '' ?
+        visibleTodos.filter(todo => todo.name.toLowerCase().includes(search.toLowerCase())) :
+        visibleTodos
 
     return {
-        visible: visibleTodos,
+        visible: displayTodos,
         remove: useCallback((todo) => dispatch({type: "remove_todo", item: todo}), []),
         toggleCheck: useCallback((todo) => dispatch({type: "toggle_todo", item: todo}), []),
+        addTask: useCallback((todo) => dispatch({type: "add_todo", item: todo}), []),
         clear: useCallback(() => dispatch({type: "remove_completed"}), []),
         toggleVisible: useCallback(() => dispatch({type: "toggle_completed"}), []),
+        search: search,
+        setSearch: setSearch,
         showCompleted: state.showCompleted,
     }
 }

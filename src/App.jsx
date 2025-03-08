@@ -1,4 +1,7 @@
 import {useTodos} from "./hooks/useTodos.js";
+import {TodosHeader} from "./components/todos/TodosHeader.jsx";
+import {TodoList} from "./components/todos/TodoList.jsx";
+import {TodoForm} from "./components/todos/TodoForm.jsx";
 
 const TODOS = [
     {name: "Create todo app", checked: false},
@@ -13,22 +16,19 @@ function App() {
 
     return (
         <div className="container my-3">
-            <button onClick={todos.toggleVisible}>
-                {todos.showCompleted ? "Hide Completed" : "Show Completed"}
-            </button>
-            <ul>
-                {todos.visible.map(todo => (
-                    <li key={todo.name}>
-                        <input type="checkbox"
-                               checked={todo.checked}
-                               onChange={() => todos.toggleCheck(todo)}
-                        />
-                        {todo.name}
-                        <button onClick={() => todos.remove(todo)}>Delete</button>
-                    </li>
-                ))}
-            </ul>
-            <button onClick={todos.clear}>Clear completed</button>
+            <TodosHeader
+                showCompleted={todos.showCompleted}
+                clear={todos.clear}
+                toggleVisible={todos.toggleVisible}
+                search={todos.search}
+                setSearch={todos.setSearch}
+            />
+            <TodoForm addTask={todos.addTask} />
+            <TodoList
+                visible={todos.visible}
+                toggleCheck={todos.toggleCheck}
+                remove={todos.remove}
+            />
         </div>
     )
 }
