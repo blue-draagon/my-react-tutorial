@@ -1,19 +1,21 @@
 import {TodoListItem} from "./TodoListItem.jsx";
-/**
- *
- * @param {[{name: string, checked: boolean}]} visible
- * @param {({name: string, checked: boolean}) => void} toggleCheck
- * @param {({name: string, checked: boolean}) => void} remove
- */
-export function TodoList ({visible, toggleCheck, remove}) {
+import {useTodos} from "./todosContext.jsx";
+export function TodoList () {
+    console.log("TodoList render")
+    const todos = useTodos()
+    const visible = todos.all.filter((todo) => {
+        let keep = todos.showCompleted ? true : !todo.checked
+        if (todos.searchPattern !== "") {
+            keep = todo.name.includes(todos.searchPattern)
+        }
+        return keep
+    })
     return (
         <div>
             <ul className="list-unstyled list vstack gap-2">
                 {visible.map(todo => (
                     <TodoListItem key={todo.name}
                         todo={todo}
-                        toggleCheck={toggleCheck}
-                        remove={remove}
                     />
                 ))}
             </ul>

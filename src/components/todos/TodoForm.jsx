@@ -1,10 +1,16 @@
-import {Input} from "../forms/Input.jsx";
+import {useTodoDispatch} from "./todosContext.jsx";
 
-export function TodoForm({addTask}) {
+export function TodoForm() {
+    console.log("TodoForm render")
+    const dispatch = useTodoDispatch()
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        addTask({name: e.target.name.value, checked: false});
-        e.target.name.value = '';
+        const name = e.target.name.value;
+        if (name.trim() !== "") {
+            dispatch({type: "add_todo", item : {name: name, checked: false}})
+            e.target.name.value = '';
+        }
     }
 
     return (
