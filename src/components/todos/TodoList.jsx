@@ -1,4 +1,4 @@
-import {TodoListItem} from "./TodoListItem.jsx";
+import {TodoListItemMemo} from "./TodoListItem.jsx";
 import {useTodos} from "./todosContext.jsx";
 export function TodoList () {
     console.log("TodoList render")
@@ -14,7 +14,7 @@ export function TodoList () {
         <div>
             <ul className="list-unstyled list vstack gap-2">
                 {visible.map(todo => (
-                    <TodoListItem key={todo.name}
+                    <TodoListItemMemo key={todo.name}
                         todo={todo}
                     />
                 ))}

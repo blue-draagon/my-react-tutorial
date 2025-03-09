@@ -1,17 +1,18 @@
 import {useTodoDispatch} from "./todosContext.jsx";
+import {memo} from "react";
 
 /**
  *
  * @param {{name: string, checked: boolean}} todo
  */
-export function TodoListItem({todo}) {
+export const TodoListItemMemo = memo(function TodoListItem({todo}) {
     console.log("TodoListItem render")
     const dispatch = useTodoDispatch()
     const toggleCheck = () => {
-        dispatch({type: "toggle_todo", item : todo})
+        dispatch({type: "toggle_todo", item: todo})
     }
     const remove = () => {
-        dispatch({type: "toggle_todo", item : todo})
+        dispatch({type: "toggle_todo", item: todo})
     }
     return (
         <li className="list-item text-center border-top pt-3">
@@ -28,4 +29,4 @@ export function TodoListItem({todo}) {
             </button>
         </li>
     )
-}
+})
