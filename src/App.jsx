@@ -1,6 +1,7 @@
-import {createBrowserRouter, NavLink, Outlet, RouterProvider, useRouteError} from "react-router-dom";
+import {createBrowserRouter, NavLink, Outlet, RouterProvider, useNavigation, useRouteError} from "react-router-dom";
 import {Article} from "./components/pages/Article.jsx";
 import {Blog} from "./components/pages/Blog.jsx";
+import {Spinner} from "./components/Spinner.jsx";
 
 const router = createBrowserRouter([
     {
@@ -12,7 +13,12 @@ const router = createBrowserRouter([
                 path: "blog",
                 element: <BlogLayout/>,
                 children: [
-                    {path: "", element: <Blog/>},
+                    {
+                        path: "", element: <Blog/>,
+                        loader: () => (
+                            fetch("https://jsonplaceholder.typicode.com/posts?_limit=10")
+                        ),
+                    },
                     {path: ":id", element: <Article/>},
                 ]
             },
@@ -23,7 +29,6 @@ const router = createBrowserRouter([
 
 function App() {
     console.log("App render")
-
     return (
         <div className="container">
             <RouterProvider router={router}/>
@@ -32,10 +37,12 @@ function App() {
 }
 
 function RootLayout() {
+    const {state} = useNavigation()
     return (
         <>
             <Navigation/>
             <div className="my-4">
+                {state === "loading" && <Spinner />}
                 <Outlet/>
             </div>
         </>
