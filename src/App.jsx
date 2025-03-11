@@ -1,13 +1,21 @@
-import {createBrowserRouter, NavLink, Outlet, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, NavLink, Outlet, RouterProvider, useRouteError} from "react-router-dom";
 import {Article} from "./components/pages/Article.jsx";
+import {Blog} from "./components/pages/Blog.jsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <RootLayout/>,
+        errorElement: <PageError />,
         children: [
-            {path: "blog", element: <Blog/>},
-            {path: "blog/:id", element: <Article/>},
+            {
+                path: "blog",
+                element: <BlogLayout/>,
+                children: [
+                    {path: "", element: <Blog/>},
+                    {path: ":id", element: <Article/>},
+                ]
+            },
             {path: "contact", element: <Contact/>},
         ]
     },
@@ -34,10 +42,18 @@ function RootLayout() {
     )
 }
 
-function Blog() {
+function BlogLayout() {
     return (
-        <div className="">
-            Blog
+        <div className="row">
+            <aside className="col-3">
+                Accounts
+            </aside>
+            <main className="col-6">
+                <Outlet/>
+            </main>
+            <aside className="col-3">
+                Services
+            </aside>
         </div>
     )
 }
@@ -57,6 +73,18 @@ function Navigation() {
             <NavLink to="/blog">Blog </NavLink>
             <NavLink to="/contact">Contact </NavLink>
         </nav>
+    )
+}
+
+function PageError() {
+    const error = useRouteError()
+    return (
+        <div className="">
+            <h1 className="alert alert-danger">
+                An error has occurred :
+                {error?.error?.toString() ?? error?.toString()}
+            </h1>
+        </div>
     )
 }
 
