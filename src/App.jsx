@@ -15,6 +15,8 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: "", element: <Blog/>,
+                        // use defer to fetch data after route
+                        // not available on react router 7
                         loader: () => (
                             fetch("https://jsonplaceholder.typicode.com/posts?_limit=10")
                         ),
