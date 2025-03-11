@@ -1,46 +1,50 @@
-import {createBrowserRouter, NavLink, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, NavLink, Outlet, RouterProvider} from "react-router-dom";
 import {Article} from "./components/pages/Article.jsx";
 
 const router = createBrowserRouter([
-    { path:"/", element : <Home />},
-    { path:"/blog", element : <Blog />},
-    { path:"/blog/:id", element : <Article />},
-    { path:"/contact", element : <Contact />},
+    {
+        path: "/",
+        element: <RootLayout/>,
+        children: [
+            {path: "blog", element: <Blog/>},
+            {path: "blog/:id", element: <Article/>},
+            {path: "contact", element: <Contact/>},
+        ]
+    },
 ])
 
 function App() {
     console.log("App render")
 
     return (
-        <div className="container my-4">
-            Bonjour le monde
-            <RouterProvider router={router} />
+        <div className="container">
+            <RouterProvider router={router}/>
         </div>
     )
 }
 
-function Home () {
+function RootLayout() {
     return (
-        <div className="">
-            <Navigation />
-            Home
-        </div>
+        <>
+            <Navigation/>
+            <div className="my-4">
+                <Outlet/>
+            </div>
+        </>
     )
 }
 
-function Blog () {
+function Blog() {
     return (
         <div className="">
-            <Navigation />
             Blog
         </div>
     )
 }
 
-function Contact () {
+function Contact() {
     return (
         <div className="">
-            <Navigation />
             Contact
         </div>
     )
@@ -48,10 +52,10 @@ function Contact () {
 
 function Navigation() {
     return (
-        <nav>
-            <NavLink to="/" >Home </NavLink>
-            <NavLink to="/blog" >Blog </NavLink>
-            <NavLink to="/contact" >Contact </NavLink>
+        <nav className="my-4">
+            <NavLink to="/">Home </NavLink>
+            <NavLink to="/blog">Blog </NavLink>
+            <NavLink to="/contact">Contact </NavLink>
         </nav>
     )
 }
